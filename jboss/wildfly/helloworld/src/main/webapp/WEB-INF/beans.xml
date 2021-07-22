@@ -1,0 +1,3 @@
+<!-- CDI should be enabled for the war file, see -->
+<!-- https://docs.jboss.org/cdi/spec/1.2/cdi-spec.html#bean_archive -->
+<beans bean-discovery-mode="all"></beans>
