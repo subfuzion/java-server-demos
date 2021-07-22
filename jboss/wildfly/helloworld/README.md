@@ -4,7 +4,7 @@
 
 ```text
 mvn test
-```text
+```
 
 This is useful for local edits since building an image takes time. In any
 case, tests will be run when building the image.
@@ -15,7 +15,7 @@ case, tests will be run when building the image.
 
 ```text
 docker build --platform linux/amd64 -t helloworld:demo .
-```text
+```
 
 > Note: for an M1 mac, explicitly set the platform:
 > docker build --platform linux/arm64/v8 ...
@@ -24,7 +24,7 @@ docker build --platform linux/amd64 -t helloworld:demo .
 
 ```text
 docker run --name helloworld --rm -it -p 8080:8080 -p 9990:9990 helloworld:demo
-```text
+```
 
 Navigate to http://localhost:8080/helloworld in your browser.
 
@@ -32,15 +32,15 @@ Navigate to http://localhost:8080/helloworld in your browser.
 
 ```text
 docker rm -f helloworld
-```text
+```
 
 ## Open the Administrative Console
 
-### First update the admin user, which is deactivated by default.
+### First update the admin user, which is deactivated by default
 
 ```text
 docker exec -it helloworld add-user.sh
-```text
+```
 
 Then follow the prompts:
 
@@ -74,7 +74,7 @@ Updated user 'admin' with groups  to file '/opt/jboss/wildfly/domain/configurati
 Is this new user going to be used for one AS process to connect to another AS process?
 e.g. for a slave host controller connecting to the master or for a Remoting connection for server to server Jakarta Enterprise Beans calls.
 yes/no? n
-```text
+```
 
 Then navigate to http://localhost:8080/console in your browser.
 
@@ -101,14 +101,15 @@ helloworld
         └── java
             └── helloworld
                 └── TestHelloService.java
-```text
+```
 
 ### Explanation of build files
 
 * `Dockerfile` - the Docker command file for building the image
 * `Makefile` - for convenience when building/launching locally
 * `pom.xml` - the Maven project file for building the war file
-* `src/main/webapp/WEB-INF/beans.xml` - marker file to enable CDI (contexts and dependency injection for Java EE)
+* `src/main/webapp/WEB-INF/beans.xml` - marker file to enable CDI
+   (contexts and dependency injection for Java EE)
 * `src/main/webapp/WEB-INF/jboss-web.xml` - set webapp context root
 * `index.html` - client redirect
 
@@ -133,9 +134,9 @@ helloworld
  11 ENV PATH=$PATH:/opt/jboss/wildfly/bin
  12 WORKDIR /opt/jboss/wildfly/standalone/deployments/
  13 COPY --from=BUILD /app/target/webapp.war ./
- ```text
+ ```
 
-#### Line 1: `FROM adoptopenjdk:11-jdk-hotspot as BUILD`
+### Line 1: `FROM adoptopenjdk:11-jdk-hotspot as BUILD`
 
 This was the latest version of `adoptopenjdk` I could get to work since the
 latest version of jboss/wildfly (`jboss/wildfly:24.0.0.Final`) uses a jdk
@@ -143,20 +144,20 @@ version that only supports major version 55 of a Java class file.
 
 This is the first stage (`BUILD`) of the multistage Dockerfile.
 
-#### Line 2-4: `RUN curl ...`
+### Line 2-4: `RUN curl ...`
 
 Download the latest release of
 [Maven](https://maven.apache.org/docs/history.html) and put it in the path.
 Make sure version is aligned with `pom.xml` (`<maven.compiler.plugin.version>`).
 
-#### Line 5-6: `WORKDIR app`
+### Line 5-6: `WORKDIR app`
 
 Make `/app` the working directory (the directory doesn't need to already exist).
 Copy all the files from the host Dockerfile directory (that aren't excluded
 by `.dockerignore`) to the `/app` directory in the Docker build context for
 the image.
 
-#### Line 7: `RUN mvn -e clean install`
+### Line 7: `RUN mvn -e clean install`
 
 The `target` directory, if there was one on the host system, should be ignored
 by the `.dockerignore`, but go ahead and run the `clean` anyway.
@@ -167,12 +168,12 @@ Finally, `install` will output `webapp.war` (the name is specified in `pom.
 xml`) into /opt/jboss/wildfly/standalone/deployments` in the image, where it
 will be automatically loaded when the jboss/wildlfy server starts.
 
-#### Line 9: `FROM jboss/wildfly:24.0.0.Final`
+### Line 9: `FROM jboss/wildfly:24.0.0.Final`
 
 This is the second stage of the multistage Dockerfile for running the
 server. It's based on the (currently) latest image for jboss/wildfly.
 
-#### Line 10: `RUN sed ...`
+### Line 10: `RUN sed ...`
 
 There is an issue with the default server configuration that prevents it
 from listening to external network connections. The default configuration
@@ -188,18 +189,18 @@ properly override the default configuration with a custom configuration,
 copying that into the correct location, but it didn't seem worth the trouble.
 This was expedient.
 
-#### Line 11: `ENV PATH=$PATH:/opt/jboss/wildfly/bin`
+### Line 11: `ENV PATH=$PATH:/opt/jboss/wildfly/bin`
 
 I added wildfly `bin` to the path for convenience. Makes it easier to run
 scripts like `add-user.sh`.
 
-#### Line 12: `WORKDIR ...`
+### Line 12: `WORKDIR ...`
 
 Not really necessary to change the working directory. I did it for convenience
 since that's where I wanted to land by default when I ran
 `docker exec -it helloworld bash`.
 
-#### Line 13: `COPY --from=BUILD /app/target/webapp.war ./`
+### Line 13: `COPY --from=BUILD /app/target/webapp.war ./`
 
 Copying the webapp from the build stage last to optimize use of the build cache
 for this stage.

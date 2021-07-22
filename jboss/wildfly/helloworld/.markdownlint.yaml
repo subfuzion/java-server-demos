@@ -3,9 +3,9 @@
 #
 # You can run a markdown lint check before submitting a pull request:
 #   npm install -g markdownlint-cli2
-#   markdownlint-cli2 'content/**.md'
+#   markdownlint-cli2 README.md
 #   # or to lint and fix:
-#   markdownlint-cli2-fix 'content/**.md'
+#   markdownlint-cli2-fix README.md
 # 
 # Rules for markdownlint-cli2 (https://github.com/DavidAnson/markdownlint-cli2)
 # Based on markdownlint library (https://github.com/DavidAnson/markdownlint)
@@ -20,5 +20,6 @@ line_length:              # MD013 max line length
   line_length: 80
 html:                     # MD033 no html
   allowed_elements: [br]
+no-bare-urls: false       # MD034
 headings: true            # MD041 require heading at top of file
 images: false             # MD045: image alt text
