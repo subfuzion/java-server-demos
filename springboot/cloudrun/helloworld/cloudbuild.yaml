@@ -1,13 +1,16 @@
 steps:
 # Build the container image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/tonypujals-ebook-examples/helloworld', '.']
+  args: ['build', '-t', 'gcr.io/${PROJECT_ID}/helloworld', '.']
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/tonypujals-ebook-examples/helloworld']
+  args: ['push', 'gcr.io/${PROJECT_ID}/helloworld']
 # Deploy container image to Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
-  args: ['run', 'deploy', 'helloworld', '--image', 'gcr.io/tonypujals-ebook-examples/helloworld', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated']
+  args: ['run', 'deploy', 'helloworld', '--image', 'gcr.io/${PROJECT_ID}/helloworld', '--region', '${_REGION}', '--platform', 'managed', '--allow-unauthenticated']
 images:
-- gcr.io/tonypujals-ebook-examples/helloworld
+- gcr.io/${PROJECT_ID}/helloworld
+
+substitutions:
+  _REGION: us-central1

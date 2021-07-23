@@ -210,7 +210,9 @@ for this stage.
 
 ## Deploy to Cloud Run
 
-Set the `PROJECT_ID` environment variable to your Google Cloud project ID:
+Set the `PROJECT_ID` environment variable to your Google Cloud project ID.
+
+For example:
 
 ```text
 export PROJECT_ID=tonypujals-ebook-examples
