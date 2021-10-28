@@ -109,7 +109,7 @@ PROJECT_ID=$(gcloud config get-value core/project 2>/dev/null)
 **3)** Replace the PROJECT_ID placeholder in the `./kubernetes/helloworld.yaml` file.
 
 ```text
-sed -i "s/PROJECT_ID/$PROJECT_ID/g" ./kubernetes/hellworld.yaml
+sed -i "s/PROJECT_ID/$PROJECT_ID/g" ./kubernetes/helloworld.yaml
 ```
 
 **4)** Create the image.
