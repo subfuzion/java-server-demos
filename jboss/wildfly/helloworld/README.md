@@ -41,14 +41,14 @@ docker rm -f helloworld
 
 ## Launch demo on Cloud Run
 
-**1.** Use the console to
+**1)** Use the console to
 * [Enable APIs](https://console.cloud.google.com/flows/enableapi?apiid=cloudbuild.googleapis.com,run.googleapis.com,containerregistry.googleapis.com,cloudresourcemanager.googleapis.com&redirect=https://cloud.google.com/build/docs/deploying-builds/deploy-cloud-run)
 for building and running the
 application on Cloud Run.
 * [Enable permission](https://console.cloud.google.com/cloud-build/settings/service-account)
 for Cloud Build to use the `Cloud Run Admin` role.
 
-**2.** In your terminal, set the Google Cloud project ID for `gcloud`.
+**2)** In your terminal, set the Google Cloud project ID for `gcloud`.
 
 For example, assuming the project ID is `java-demo`:
 
@@ -56,10 +56,10 @@ For example, assuming the project ID is `java-demo`:
 gcloud config set project java-demo
 ```
 
-**3.** Update `cloudbuild.yaml` to use a different region value for the `$_REGION`
+**3)** Update `cloudbuild.yaml` to use a different region value for the `$_REGION`
 substitution variable if you want to deploy to another region than `us-central`.
 
-**4.** In the `helloworld` directory, enter the following command to upload the
+**4)** In the `helloworld` directory, enter the following command to upload the
 contents of the directory to Cloud Build. Cloud Build will process the
 Dockerfile to create a Docker image and push it to a Google Container Registry
 repository in your project. Then it will launch a container on Cloud Run.
@@ -68,7 +68,7 @@ repository in your project. Then it will launch a container on Cloud Run.
 gcloud builds submit
 ```
 
-**5.** Use the `Service URL` printed in the build output to connect to the demo in
+**5)** Use the `Service URL` printed in the build output to connect to the demo in
 your browser. It should look something like this:
 
 ```text
