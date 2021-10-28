@@ -2,7 +2,7 @@
 
 IMAGE      = hellworld:demo
 CONTAINER  = helloworld
-PLATFORM   = linux/arm64/v8  # on mac m1, set as appropriate (linux/amd64, etc)
+PLATFORM   = linux/amd64  # on mac m1 use: linux/arm64/v8
 
 build:
 	docker build --platform $(PLATFORM) -t $(IMAGE) .

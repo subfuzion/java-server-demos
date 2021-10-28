@@ -83,6 +83,72 @@ DONE
 ...
 ```
 
+## Launching demo on GKE with Autopilot
+
+**1)** Use the console to
+* [Enable APIs](https://console.cloud.google.com/flows/enableapi?apiid=cloudbuild.googleapis.com,run.googleapis.com,containerregistry.googleapis.com,cloudresourcemanager.googleapis.com&redirect=https://cloud.google.com/build/docs/deploying-builds/deploy-cloud-run)
+for building and running the
+application on Cloud Run.
+* [Enable permission](https://console.cloud.google.com/cloud-build/settings/service-account)
+for Cloud Build to use the `Cloud Run Admin` role.
+
+**2)** In your terminal, set the Google Cloud project ID for `gcloud`.
+
+For example, assuming the project ID is `java-demo`:
+
+```text
+gcloud config set project java-demo
+```
+
+Also save the project ID to an environment variable.
+
+```text
+PROJECT_ID=$(gcloud config get-value core/project 2>/dev/null)
+```
+
+**3)** Replace the PROJECT_ID placeholder in the `./kubernetes/helloworld.yaml` file.
+
+```text
+sed -i "s/PROJECT_ID/$PROJECT_ID/g" ./kubernetes/hellworld.yaml
+```
+
+**4)** Create the image.
+
+```
+gcloud builds submit --tag gcr.io/$PROJECT_ID/frontend:latest
+```
+
+**5)** Create an autopilot cluster.
+
+```text
+gcloud container clusters create-auto CLUSTER-NAME
+```
+
+**6)** Deploy the app.
+
+```text
+kubectl apply -f kubernetes/
+```
+
+**7)** Wait for the pod to run.
+
+```text
+watch kubectl get pods
+```
+
+Press Ctrl-C when finished watching.
+
+**8)** Once the app is deployed, get the external IP.
+
+```text
+kubectl get service helloworld-external -o jsonpath="{.status.loadBalancer.ingress[0].ip}{'\n'}"
+```
+
+**9)** Test the app using the IP.
+
+http://IP
+
+
 ## App notes
 
 ### App Structure
