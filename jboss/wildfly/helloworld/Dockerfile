@@ -1,6 +1,6 @@
 FROM adoptopenjdk:11-jdk-hotspot as BUILD
-RUN curl -#L https://apache.claz.org/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz \
-    | tar -C /opt/java -xzf -
+RUN curl -#L https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.8.1/apache-maven-3.8.1-bin.tar.gz \
+| tar -C /opt/java -xzf -
 ENV PATH=$PATH:/opt/java/apache-maven-3.8.1/bin
 WORKDIR /app
 COPY . ./
