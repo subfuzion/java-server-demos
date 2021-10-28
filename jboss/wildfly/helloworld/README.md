@@ -41,25 +41,25 @@ docker rm -f helloworld
 
 ## Launch demo on Cloud Run
 
-Use the console to
-[enable APIs](https://console.cloud.google.com/flows/enableapi?apiid=cloudbuild.googleapis.com,run.googleapis.com,containerregistry.googleapis.com,cloudresourcemanager.googleapis.com&redirect=https://cloud.google.com/build/docs/deploying-builds/deploy-cloud-run)
+`1.` Use the console to
+* [Enable APIs](https://console.cloud.google.com/flows/enableapi?apiid=cloudbuild.googleapis.com,run.googleapis.com,containerregistry.googleapis.com,cloudresourcemanager.googleapis.com&redirect=https://cloud.google.com/build/docs/deploying-builds/deploy-cloud-run)
 for building and running the
-application on Cloud Run. Then
-[enable permission](https://console.cloud.google.com/cloud-build/settings/service-account)
+application on Cloud Run.
+* [Enable permission](https://console.cloud.google.com/cloud-build/settings/service-account)
 for Cloud Build to use the `Cloud Run Admin` role.
 
-In your terminal, set the Google Cloud project ID for `gcloud`.
+`2.` In your terminal, set the Google Cloud project ID for `gcloud`.
 
-For example:
+For example, assuming the project ID is `java-demo`:
 
 ```text
 gcloud config set project java-demo
 ```
 
-Update `cloudbuild.yaml` to use a different region value for the `$_REGION`
+`3.` Update `cloudbuild.yaml` to use a different region value for the `$_REGION`
 substitution variable if you want to deploy to another region than `us-central`.
 
-In the `helloworld` directory, enter the following command to upload the
+`4.` In the `helloworld` directory, enter the following command to upload the
 contents of the directory to Cloud Build. Cloud Build will process the
 Dockerfile to create a Docker image and push it to a Google Container Registry
 repository in your project. Then it will launch a container on Cloud Run.
@@ -68,7 +68,7 @@ repository in your project. Then it will launch a container on Cloud Run.
 gcloud builds submit
 ```
 
-Use the `Service URL` printed in the build output to connect to the demo in
+`5.` Use the `Service URL` printed in the build output to connect to the demo in
 your browser. It should look something like this:
 
 ```text
@@ -83,51 +83,7 @@ DONE
 ...
 ```
 
-## Notes on opening the Administrative Console
-
-### First update the admin user, which is deactivated by default
-
-```text
-docker exec -it helloworld add-user.sh
-```
-
-Then follow the prompts:
-
-```text
-[jboss@eaa65a3ddd18 deployments]$ add-user.sh
-
-What type of user do you wish to add?
- a) Management User (mgmt-users.properties)
- b) Application User (application-users.properties)
-(a): a
-
-Enter the details of the new user to add.
-Using realm 'ManagementRealm' as discovered from the existing property files.
-Username : admin
-User 'admin' already exists and is disabled, would you like to...
- a) Update the existing user password and roles
- b) Enable the existing user
- c) Type a new username
-(a): a
-Password recommendations are listed below. To modify these restrictions edit the add-user.properties configuration file.
- - The password should be different from the username
- - The password should not be one of the following restricted values {root, admin, administrator}
- - The password should contain at least 8 characters, 1 alphabetic character(s), 1 digit(s), 1 non-alphanumeric symbol(s)
-Password :
-Re-enter Password :
-What groups do you want this user to belong to? (Please enter a comma separated list, or leave blank for none)[  ]:
-Updated user 'admin' to file '/opt/jboss/wildfly/standalone/configuration/mgmt-users.properties'
-Updated user 'admin' to file '/opt/jboss/wildfly/domain/configuration/mgmt-users.properties'
-Updated user 'admin' with groups  to file '/opt/jboss/wildfly/standalone/configuration/mgmt-groups.properties'
-Updated user 'admin' with groups  to file '/opt/jboss/wildfly/domain/configuration/mgmt-groups.properties'
-Is this new user going to be used for one AS process to connect to another AS process?
-e.g. for a slave host controller connecting to the master or for a Remoting connection for server to server Jakarta Enterprise Beans calls.
-yes/no? n
-```
-
-Then navigate to http://localhost:8080/console in your browser.
-
-## Notes about the app
+## App notes
 
 ### App Structure
 
@@ -154,7 +110,7 @@ helloworld
                 └── TestHelloService.java
 ```
 
-### Explanation of build files
+### Project files (non Java)
 
 * `Dockerfile` - the Docker command file for building the image
 * `Makefile` - for convenience when building/launching locally
@@ -164,12 +120,12 @@ helloworld
 * `src/main/webapp/WEB-INF/jboss-web.xml` - set webapp context root
 * `index.html` - client redirect
 
-### Explanation of Java files
+### Java files
 
 * `HelloWorldServlet` - the servlet entrypoint
 * `HelloService` - the service implementation injected into the servlet
 
-### Dockerfile explanation
+### Dockerfile notes
 
 ```Dockerfile
   1 FROM adoptopenjdk:11-jdk-hotspot as BUILD
