@@ -6,7 +6,9 @@
 
 2. Demonstrate running under Docker.
 
-3. Demonstrate running on Cloud Run.
+3. Demonstrate running on GKE (in Autopilot mode)
+
+4. Demonstrate running on Cloud Run.
 
 ## [springboot/helloworld](springboot/helloworld)
 
